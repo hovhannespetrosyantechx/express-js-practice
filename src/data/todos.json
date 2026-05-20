@@ -1,4 +1,17 @@
 {
-  "users": [],
-  "todos": []
+  "users": [
+    {
+      "id": 1,
+      "username": "john",
+      "password": "$2b$10$/ST4jdcUfggE9H9eU9nTJ.gfgCidmjbCQPtNFY6yniAclAkzRadsm"
+    }
+  ],
+  "todos": [
+    {
+      "id": 2,
+      "userId": 1,
+      "title": "Buy 2",
+      "completed": false
+    }
+  ]
 }

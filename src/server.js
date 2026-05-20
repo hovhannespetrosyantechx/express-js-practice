@@ -6,8 +6,9 @@ const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const notFoundMiddleware = require('./middlewares/notFoundMiddleware');
 const errorMiddleware = require('./middlewares/errorMiddleware');
+const todoRoutes = require('./routes/todoRoutes');
 
-dotenv.config();
+dotenv.config({ path: '../.env' });
 // Access-Control-Allow-Origin: localhost:3000
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(cors({
 // ================================
 // GLOBAL MIDDLEWARES
 // ================================
+
 
 // Parses JSON body
 app.use(express.json());
@@ -44,6 +46,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('/api/todos', todoRoutes);
 
 // ================================
 // ERROR HANDLING

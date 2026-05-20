@@ -1,12 +1,23 @@
-const registerUser = (req, res) => {
-  const { username , password} = req.body;
-  console.log(username, password);
+const { registerUserService, loginUserService } = require('../services/userService');
 
-  return res.status(201).json({message:'register route hit' })
+const registerUser = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const user = await registerUserService(username, password);
+    return res.status(201).json({ message: 'User registered', user });
+  } catch (error) {
+    next(error);
+  }
 };
 
-// const loginUser = (req, res) => {
-//   const { username, password} = req.body;
-// };
+const loginUser = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const data = await loginUserService(username, password);
+    return res.status(200).json({ message: 'Login successful', ...data });
+  } catch (error) {
+    next(error);
+  }
+};
 
-module.exports = { loginUser, registerUser};
+module.exports = { registerUser, loginUser };
