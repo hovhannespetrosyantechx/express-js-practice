@@ -1,70 +1,23 @@
-const users = [
-  { id: 1, name: 'John' },
-  { id: 2, name: 'Jane' }
-];
+const { registerUserService, loginUserService } = require('../services/userService');
 
-// GET ALL USERS
-const getUsers = (req, res) => {
-
-  res.status(200).json({
-    success: true,
-    data: users
-  });
-
-};
-
-// GET USER BY ID
-const getUserById = (req, res, next) => {
-
-  const userId = Number(req.params.id);
-
-  const user = users.find(user => user.id === userId);
-
-  if (!user) {
-
-    const error = new Error('User not found');
-
-    error.statusCode = 404;
-
-    return next(error);
+const registerUser = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const user = await registerUserService(username, password);
+    return res.status(201).json({ message: 'User registered', user });
+  } catch (error) {
+    next(error);
   }
-
-  res.status(200).json({
-    success: true,
-    data: user
-  });
-
 };
 
-// CREATE USER
-const createUser = (req, res) => {
-  const { name } = req.body;
-
-  if (!name) {
-
-    return res.status(400).json({
-      success: false,
-      message: 'Name is required'
-    });
-
+const loginUser = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const data = await loginUserService(username, password);
+    return res.status(200).json({ message: 'Login successful', ...data });
+  } catch (error) {
+    next(error);
   }
-
-  const newUser = {
-    id: users.length + 1,
-    name
-  };
-
-  users.push(newUser);
-
-  res.status(201).json({
-    success: true,
-    data: newUser
-  });
-
 };
 
-module.exports = {
-  getUsers,
-  getUserById,
-  createUser
-};
+module.exports = { registerUser, loginUser };
